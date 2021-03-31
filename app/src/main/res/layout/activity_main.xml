@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+<androidx.cardview.widget.CardView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:cardElevation="10dp"
+
+app:cardCornerRadius="20dp"
+android:layout_margin="10dp"
+app:cardBackgroundColor="#0f0"
+app:cardMaxElevation="12dp"
+app:cardPreventCornerOverlap="true"
+app:cardUseCompatPadding="true"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Excess Food Managment"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+</androidx.cardview.widget.CardView>
+    <LinearLayout
+    android:layout_marginTop="120dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="#fff"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        >
+
+        <ImageView
+
+            android:onClick="insert"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/resta"
+            android:layout_margin="10dp"
+            android:id="@+id/img"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Restaurant"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="#fff"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        >
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/users"
+            android:layout_margin="10dp"
+            android:id="@+id/img1"
+            android:onClick="insertk"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Users"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+</RelativeLayout>
