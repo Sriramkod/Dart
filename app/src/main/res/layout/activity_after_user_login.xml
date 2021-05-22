@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
+    android:layout_height="match_parent"
+    tools:context=".AfterUserLogin">
+    <TextView
+        android:id="@+id/rname"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:text="Restaurants"
+        android:textAlignment="center"
+        android:textColor="#ff00"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" " />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <!--
+
+      <ListView
+          android:id="@+id/listView"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_alignParentLeft="true"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentTop="true" />
+
+      <TextView
+          android:textColor="#fff"
+          android:textStyle="bold"
+          android:textAlignment="center"
+          android:textSize="40dp"
+          android:visibility="invisible"
+          android:id="@android:id/empty"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="You have no Items" />-->
+</LinearLayout>

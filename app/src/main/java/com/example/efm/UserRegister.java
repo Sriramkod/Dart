@@ -40,63 +40,70 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RestRegister extends AppCompatActivity {
-    int val=0;
-    String name,cnumber,lnumber,cpsw,psw,address;
+public class UserRegister extends AppCompatActivity {
     Button reg;
-    String ServerURL = "https://learnfriendly.000webhostapp.com/rohan/insert.php";
-    String ServerURL_T = "https://learnfriendly.000webhostapp.com/rohan/RestUsers.php";
-    EditText et1,et2,et3,et4,et5,et6;private ProgressDialog progressDialog;
+    String ServerURL = "https://learnfriendly.000webhostapp.com/rohan/ureg.php";
+    String ServerURL_T = "https://learnfriendly.000webhostapp.com/rohan/UserUsers.php";
+    EditText et1,et2,et3,et4,et5,et6,et7;private ProgressDialog progressDialog;
     String[] restnum = new String[100];
-
-
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rest_register);
-        et1 =  findViewById(R.id.rname);
-        et2 = findViewById(R.id.rnumber);
-        et3 =  findViewById(R.id.lnumber);
+        setContentView(R.layout.activity_user_register);
+        et1 =  findViewById(R.id.name);
+        et2 = findViewById(R.id.aadhar);
+        et3 =  findViewById(R.id.phone);
         et4= findViewById(R.id.psw);
         et5=findViewById(R.id.cpsw);
         et6=findViewById(R.id.address);
+        et7=findViewById(R.id.email);
         reg = findViewById(R.id.reg);
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (TextUtils.isEmpty(et1.getText().toString())){
                     et1.requestFocus();
-                    Toast.makeText(RestRegister.this, "Restaurant name cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegister.this, "User name cannot be empty", Toast.LENGTH_SHORT).show();
                 }
                 else if(TextUtils.isEmpty(et2.getText().toString())){
                     et2.requestFocus();
-                    Toast.makeText(RestRegister.this, "Contact number cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegister.this, "Aadhar number cannot be empty", Toast.LENGTH_SHORT).show();
                 }
                 else if(TextUtils.isEmpty(et3.getText().toString())){
                     et3.requestFocus();
-                    Toast.makeText(RestRegister.this, "License number cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegister.this, "Phone number cannot be empty", Toast.LENGTH_SHORT).show();
                 }
 
                 else if(TextUtils.isEmpty(et4.getText().toString())){
                     et4.requestFocus();
-                    Toast.makeText(RestRegister.this, "password cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegister.this, "password cannot be empty", Toast.LENGTH_SHORT).show();
                 }
                 else if(TextUtils.isEmpty(et5.getText().toString())){
                     et5.requestFocus();
-                    Toast.makeText(RestRegister.this, "password  cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegister.this, "password cannot be empty", Toast.LENGTH_SHORT).show();
                 }
                 else if(TextUtils.isEmpty(et6.getText().toString())){
                     et6.requestFocus();
-                    Toast.makeText(RestRegister.this, "Address cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegister.this, "Address cannot be empty", Toast.LENGTH_SHORT).show();
+                }
+                else if(TextUtils.isEmpty(et7.getText().toString())){
+                    et7.requestFocus();
+                    Toast.makeText(UserRegister.this, "Email cannot be empty", Toast.LENGTH_SHORT).show();
                 }
                 else if(!et4.getText().toString().equals(et5.getText().toString()))
                 {
                     et4.requestFocus();et5.requestFocus();
-                    Toast.makeText(RestRegister.this, "The passwords did not match", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserRegister.this, "The passwords did not match", Toast.LENGTH_LONG).show();
                 }
-                else if(et2.getText().toString().length()!=10){
+                else if(et2.getText().toString().length()!=12){
                     et2.requestFocus();
-                    et2.setError("Invalid Phone Number");
+                    Toast.makeText(UserRegister.this, "Invalid Aadhar number", Toast.LENGTH_LONG).show();
+                }
+                else if(et3.getText().toString().length()!=10){
+                    et3.requestFocus();
+                    et3.setError("Invalid Phone Number");
                 }
                 else if(!isValidPassword(et4.getText().toString()))
                 {
@@ -104,22 +111,18 @@ public class RestRegister extends AppCompatActivity {
                 }
                 else{
                     if(!haveNetwork())
-                    Toast.makeText(RestRegister.this, "Please check your Internet connection...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserRegister.this, "Please check your Internet connection...", Toast.LENGTH_SHORT).show();
                     else{
-                     getJSON(ServerURL_T,"sri","ram");
-                    //    Toast.makeText(RestRegister.this, "Connected...", Toast.LENGTH_SHORT).show();
-                        /*if(val==0)
-                        InsertData(et1.getText().toString(),et2.getText().toString(),et3.getText().toString(),
-                                et4.getText().toString(),et6.getText().toString());
-                        else
-                        {
-                            et2.setError("This number is Already registered..Try to login");
-                        }*/
+                        //Toast.makeText(UserRegister.this, "Connected...", Toast.LENGTH_SHORT).show();
+                        /*InsertData(et1.getText().toString(),et2.getText().toString(),et3.getText().toString(),
+                                et4.getText().toString(),et6.getText().toString(),et7.getText().toString());*/
+                        getJSON(ServerURL_T,"sri","ram");
                     }
                 }
             }
         });
-}
+    }
+
     private boolean haveNetwork(){
         boolean have_WIFI= false;
         boolean have_MobileData = false;
@@ -131,9 +134,7 @@ public class RestRegister extends AppCompatActivity {
         }
         return have_WIFI||have_MobileData;
     }
-
-
-    public void InsertData(final String name, final String number, final String lnumber, final String pass, final String address){
+    public void InsertData(final String name, final String number, final String lnumber, final String pass, final String address,final String email){
 
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
             @Override
@@ -144,13 +145,15 @@ public class RestRegister extends AppCompatActivity {
                 String lnumberH = lnumber;
                 String passH = pass;
                 String addressH = address;
+                String emailH = email;
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("name", NameHolder));
-                nameValuePairs.add(new BasicNameValuePair("number", Number));
-                nameValuePairs.add(new BasicNameValuePair("lnumber",lnumberH ));
+                nameValuePairs.add(new BasicNameValuePair("aadhar", Number));
+                nameValuePairs.add(new BasicNameValuePair("number",lnumberH ));
                 nameValuePairs.add(new BasicNameValuePair("pass",passH ));
                 nameValuePairs.add(new BasicNameValuePair("address",addressH ));
+                nameValuePairs.add(new BasicNameValuePair("email",emailH ));
                 try {
 
                     HttpClient httpClient = new DefaultHttpClient();
@@ -176,15 +179,15 @@ public class RestRegister extends AppCompatActivity {
             protected void onPreExecute() {
                 // TODO Auto-generated method stub
                 super.onPreExecute();
-                progressDialog = ProgressDialog.show(RestRegister.this, "Just a minute","Please wait....", true);
+                progressDialog = ProgressDialog.show(UserRegister.this, "Just a minute","Please wait....", true);
             }
             @Override
             protected void onPostExecute(String result) {
 
                 super.onPostExecute(result);
                 progressDialog.dismiss();
-                Toast.makeText(RestRegister.this, "Registration Successful...Please Login", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(RestRegister.this, RestLogin.class);
+                Toast.makeText(UserRegister.this, "Registration Successfull...Please Login", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UserRegister.this, UserLogin.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -192,7 +195,7 @@ public class RestRegister extends AppCompatActivity {
         }
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
 
-        sendPostReqAsyncTask.execute(name, number, lnumber, pass, address);
+        sendPostReqAsyncTask.execute(name, number, lnumber, pass, address,email);
     }
     private void getJSON(final String urlWebService,final String email,final String password) {
 
@@ -201,7 +204,7 @@ public class RestRegister extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressDialog = ProgressDialog.show(RestRegister.this, "Checking....","Please Wait....", true);
+                progressDialog = ProgressDialog.show(UserRegister.this, "Checking....","Please Wait....", true);
             }
 
 
@@ -210,16 +213,16 @@ public class RestRegister extends AppCompatActivity {
 
                 super.onPostExecute(s);
                 progressDialog.dismiss();
-                try {
+                try{
                     int k = loadView(s);
-                    if (k == 1) {
-                        et2.setError("This number is already registered..please try to login");
+                    if(k==1){
+                        et3.setError("This number is already registered..please try to login");
                     }
-                    else{
+                    else {
                         InsertData(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(),
-                                et4.getText().toString(), et6.getText().toString());
-                }
-                } catch (JSONException e) {
+                                et4.getText().toString(), et6.getText().toString(), et7.getText().toString());
+                    }
+                    } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -271,8 +274,8 @@ public class RestRegister extends AppCompatActivity {
         }
         for(int i=0;i<restnum.length;i++){
 
-            if(restnum[i].equals(et2.getText().toString())) {
-            return 1;
+            if(restnum[i].equals(et3.getText().toString())) {
+                return 1;
             }
 
         }

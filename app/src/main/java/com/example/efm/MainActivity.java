@@ -6,7 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -27,16 +30,19 @@ public class MainActivity extends AppCompatActivity {
     String TempName, TempEmail ;
     String ServerURL = "https://learnfriendly.000webhostapp.com/get_data.php";
     private ProgressDialog progressDialog;
+    String name,cnumber,lnumber,cpsw,psw,address;
+    Button reg;
+    EditText et1,et2,et3,et4,et5,et6;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     public void insert(View view) {
-        GetData();
-
-        InsertData("sri", "ram");
+        Intent intent=new Intent(MainActivity.this,RestLogin.class);
+        startActivity(intent);
     }
     public void GetData(){
 
@@ -105,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void insertk(View view) {
-        Intent intent=new Intent(MainActivity.this,displayData.class);
+       /* Intent intent=new Intent(MainActivity.this,RestRegister.class);
+        startActivity(intent);*/
+        Intent intent=new Intent(MainActivity.this,UserLogin.class);
         startActivity(intent);
     }
 }
