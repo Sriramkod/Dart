@@ -29,4 +29,10 @@ public class AfterRestLogin extends AppCompatActivity {
         in.putExtra("id",num);
         startActivity(in);
     }
+
+    public void viewmyOrders(View view) {
+        Intent in = new Intent(AfterRestLogin.this,UserOrdersRestView.class);
+        in.putExtra("id",num);
+        startActivity(in);
+    }
 }

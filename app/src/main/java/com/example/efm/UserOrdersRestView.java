@@ -1,10 +1,14 @@
 package com.example.efm;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,55 +31,68 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
-public class AfterUserLogin extends AppCompatActivity {
+public class UserOrdersRestView extends AppCompatActivity {
     LinearLayout container;
     String[] webchrz = new String[100];
     String[] webchrz1 = new String[100];
     String[] webchrz2 = new String[100];
     String[] restnum = new String[100];
-    String[] idd = new String[100];String[] namee = new String[100];String[] lnumber  = new String[100];
-    String[] numberr = new String[100];String[] address = new String[100];
+    String[] fid=  new String[100];
     ListView listView;
-
-String user_phone=null;
+    String[] user_phone =  new String[100];
+    String[] rest_phone =  new String[100];
     String phone=null;
     private ProgressDialog progressDialog;
-    String ServerURL = "https://learnfriendly.000webhostapp.com/rohan/AfterUserLogin.php";
+    String ServerURL = "https://learnfriendly.000webhostapp.com/rohan/UserOrdersDisplay.php";
+    String ServerURLD = "https://learnfriendly.000webhostapp.com/rohan/RestDonateDelete.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_after_user_login);
-        Intent inte = getIntent();
-        user_phone = inte.getStringExtra("id");
-        container = (LinearLayout) findViewById(R.id.container); getJSON(ServerURL,"sri","ram");
+        setContentView(R.layout.activity_user_orders_rest_view);
+        Intent in = getIntent();
+        phone = in.getStringExtra("id");
+        container = (LinearLayout) findViewById(R.id.container);
+
+         listView = (ListView) findViewById(R.id.listView);
+
+        getJSON(ServerURL,"sri","ram");
     }
-    public void addItems(String a,String ids) {
+    public void addItems(final String a, final String fid, final String userphone) {
         LayoutInflater layoutInflater =
                 (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View addView = layoutInflater.inflate(R.layout.item_row, null);
 
         final TextView vv = (TextView) addView.findViewById(R.id.place);
-        final TextView iddd = (TextView) addView.findViewById(R.id.iddd);
+
         final Button edit = (Button)addView.findViewById(R.id.edit);
+
+        edit.setVisibility(View.INVISIBLE);
+
         final Button del = (Button)addView.findViewById(R.id.delete);
-        del.setVisibility(View.INVISIBLE);
-        vv.setText(""+a.toString());
-        iddd.setText(""+ids.toString());
 
-        edit.setOnClickListener(new View.OnClickListener() {
+        del.setText("View");
+        vv.setText(""+userphone.toString());
 
+
+        del.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-             //   Toast.makeText(AfterUserLogin.this, ""+iddd.getText().toString(), Toast.LENGTH_SHORT).show();
-             Intent in  = new Intent(AfterUserLogin.this,ViewRest.class);
-             in.putExtra("iddd",iddd.getText().toString());
-             in.putExtra("name",vv.getText().toString());
-             in.putExtra("user_phone",user_phone.toString());
-             startActivity(in);
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserOrdersRestView.this);
+                builder.setTitle("Order from : "+userphone.toString());
+                builder.setMessage("Items and Quantity : "+a.toString())
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int kk) {
+                                //  Toast.makeText(ViewRest.this, "Please check your connection...", Toast.LENGTH_SHORT).show();
+
+
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
+
         });
         container.addView(addView);
     }
@@ -86,13 +103,13 @@ String user_phone=null;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressDialog = ProgressDialog.show(AfterUserLogin.this, "Loading Data","Please Wait....", true);
+                progressDialog = ProgressDialog.show(UserOrdersRestView.this, "Loading Data","Please Wait....", true);
             }
 
 
             @Override
             protected void onPostExecute(String s) {
-              //  Toast.makeText(AfterUserLogin.this, " "+s, Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(RestDisplay.this, " "+s, Toast.LENGTH_SHORT).show();
                 super.onPostExecute(s);
                 progressDialog.dismiss();
                 try{
@@ -137,33 +154,41 @@ String user_phone=null;
         GetJSON getJSON = new GetJSON();
         getJSON.execute();
     }
-
     private void loadIntoListView(String json) throws JSONException {
         JSONArray jsonArray = new JSONArray(json);
-        idd = new String[jsonArray.length()];namee= new String[jsonArray.length()];lnumber= new String[jsonArray.length()];
-        numberr= new String[jsonArray.length()];address= new String[jsonArray.length()];
-//        webchrz = new String[jsonArray.length()];
-//        webchrz1 = new String[jsonArray.length()];
-//        webchrz2 = new String[jsonArray.length()];
-//        restnum = new String[jsonArray.length()];
+        webchrz = new String[jsonArray.length()];
+        webchrz1 = new String[jsonArray.length()];
+        webchrz2 = new String[jsonArray.length()];
+        restnum = new String[jsonArray.length()];
+        user_phone = new String[jsonArray.length()];
+        rest_phone = new String[jsonArray.length()];
+        fid = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
-
-            idd[i] = obj.getString("id");
-            namee[i] = obj.getString("name");
-            lnumber[i] = obj.getString("lnumber");numberr[i] = obj.getString("number");
-            address[i] = obj.getString("address");
-            //webchrz2[i] = "  Type: "+webchrz[i]+" || "+"Quantity:"+webchrz1[i]+"Kg.";
+            fid[i]=obj.getString("id");
+            webchrz[i] = obj.getString("ftype");
+            webchrz1[i] = obj.getString("quantity");
+            user_phone[i] = obj.getString("uphone");
+            rest_phone[i] = obj.getString("rphone");
+            webchrz2[i] = "  Type: "+webchrz[i]+" || "+"Quantity:"+webchrz1[i]+"Kg.";
         }
-        for(int i=0;i<namee.length;i++){
-            if(namee[i]!=null) {
-                //if(phone.equalsIgnoreCase(restnum[i]))
-
-                    addItems(namee[i],numberr[i]);
+        for(int i=0;i<rest_phone.length;i++){
+            if(rest_phone[i]!=null) {
+                if(phone.equalsIgnoreCase(rest_phone[i]))
+                    addItems(webchrz2[i],fid[i],user_phone[i]);
             }
         }
 
     }
-
+    private boolean haveNetwork(){
+        boolean have_WIFI= false;
+        boolean have_MobileData = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
+        for(NetworkInfo info:networkInfos){
+            if (info.getTypeName().equalsIgnoreCase("WIFI"))if (info.isConnected())have_WIFI=true;
+            if (info.getTypeName().equalsIgnoreCase("MOBILE DATA"))if (info.isConnected())have_MobileData=true;
+        }
+        return have_WIFI||have_MobileData;
+    }
 }
-

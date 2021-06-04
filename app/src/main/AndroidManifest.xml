@@ -8,12 +8,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/foodsaver"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/foodsaver"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewRest"></activity>
+        <activity android:name=".UserOrdersRestView"></activity>
+        <activity android:name=".ViewRest" />
         <activity android:name=".AfterUserLogin" />
         <activity android:name=".UserLogin" />
         <activity android:name=".UserRegister" />
